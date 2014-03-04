@@ -3,8 +3,12 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes');
+var express = require('express');
+var routes = require('./routes');
+var fs = require('fs');
+
+var logfile = fs.createWriteStream('votes.log', {flags:'a', mode:'644', encoding:null});
+
 
 var app = module.exports = express.createServer();
 
@@ -33,10 +37,13 @@ app.get('/setvote', function (req,res) {
 	var vote = req.query.vote;
 	var now = new Date();
 	console.log('vote ' + now.toISOString() + ' ' + user + ' ' + vote);
-
-	res.end('ok');
+	logfile.write(JSON.stringify({time:now.toISOString(), user:user, vote:vote}) + '\n');
+	res.end('ok')
 
 }); 
+
+
+
 
 // Routes
 
