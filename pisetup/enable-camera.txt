@@ -1,0 +1,8 @@
+# Get updates
+sudo apt-get update
+
+# run upgrades (takes a while)
+sudo apt-get upgrade
+
+# Enable camera - this shows a menu; can't script this probably
+sudo raspi-config
