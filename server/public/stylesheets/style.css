@@ -1,0 +1,34 @@
+body {
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+.reverse {
+	position: absolute;
+	background: #0F0;
+	top: 0px;
+	bottom: 50px;
+	left: 0px;
+	width: 40%;
+}
+
+.forward {
+	position: absolute;
+	background: blue;
+	top: 0px;
+	bottom: 50px;
+	width: 55%;
+	right: 0px;
+}
+
+.info {
+	position: absolute;
+	height: 40px;
+	bottom: 0px;
+	width: 100%;
+}
