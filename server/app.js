@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var fs = require('fs');
+var dgram = require('dgram');
 
 var logfile = fs.createWriteStream('votes.log', {flags:'a', mode:'644', encoding:null});
 
@@ -13,6 +14,7 @@ function VoteCounter() {
 	this.votes = {};
 	this.winner = 'centre-stop';
 	this.runningtimer = false;
+	this.cb = function() {};
 }
 
 VoteCounter.prototype.setVote = function(user,vote) {
@@ -65,7 +67,7 @@ VoteCounter.prototype.recalculate = function () {
 	}
 
 	console.log('winner: ' + winner);
-
+	this.cb(winner);
 	clearTimeout(this.runningtimer);		
 	if (0 < oldestvote) {
 		var that = this;
@@ -73,8 +75,35 @@ VoteCounter.prototype.recalculate = function () {
 	}
 };
 
+function PiController(votes) {
+	var that = this;
+	this.socket = dgram.createSocket('udp4');
+	this.socket.bind(8088);
+	this.lastaddress = undefined;
+	
+	this.socket.on('message', function(data, rinfo) {
+		console.log('Got PI address' + rinfo.address + ':' + rinfo.port);
+		that.lastaddress = rinfo;
+	});
+
+	votes.cb = function(winner) {
+		that.sendToPi(winner);
+	};
+}
+
+PiController.prototype.sendToPi = function (winner) {
+	var m = new Buffer(winner);
+	if (this.lastaddress) {
+		this.socket.send(m, 0, m.length, this.lastaddress.port, this.lastaddress.address);
+	} else {
+		console.log('Not sending new vote: no pi found');
+	}
+};
+
 
 var votes = new VoteCounter();
+var piController = new PiController(votes);
+
 
 var app = module.exports = express.createServer();
 
