@@ -30,9 +30,9 @@ app.configure('production', function(){
 
 app.get('/setvote', function (req,res) { 
 	var user = req.query.user;
-	var direction = req.query.dir;
+	var vote = req.query.vote;
 	var now = new Date();
-	console.log('vote ' + now.toISOString() + ' ' + user + ' ' + direction);
+	console.log('vote ' + now.toISOString() + ' ' + user + ' ' + vote);
 
 	res.end('ok');
 
