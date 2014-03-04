@@ -54,10 +54,9 @@ window.addEventListener("devicemotion", function (event) {
 
 
 $('.forward').on('touchstart', function() { sendVote.newMotion('forward'); });
-
 $('.reverse').on('touchstart', function() { sendVote.newMotion('reverse'); });
-
 $('.forward').on('touchend', function() { sendVote.newMotion('stop'); });
-
 $('.reverse').on('touchend', function() { sendVote.newMotion('stop'); });
+$('.forward').on('touchcancel', function() { sendVote.newMotion('stop'); });
+$('.reverse').on('touchcancel', function() { sendVote.newMotion('stop'); });
 
