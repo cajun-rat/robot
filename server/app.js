@@ -134,8 +134,8 @@ app.get('/setvote', function (req,res) {
 	console.log('vote ' + now.toISOString() + ' ' + user + ' ' + vote);
 	logfile.write(JSON.stringify({time:now.toISOString(), user:user, vote:vote}) + '\n');
 	votes.setVote(user, vote);
-	res.end('ok')
-
+	res.header('Content-Type', 'application/javascript');
+	res.end(JSON.stringify({res:'ok'}));
 }); 
 
 

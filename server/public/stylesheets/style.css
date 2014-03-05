@@ -9,23 +9,13 @@ a {
 	  color: #00B7FF;
 }
 
-
-.reverse {
-	position: absolute;
-	background: #0F0;
+#control {
 	top: 0px;
-	bottom: 50px;
-	left: 0px;
-	width: 40%;
-}
-
-.forward {
 	position: absolute;
-	background: blue;
-	top: 0px;
-	bottom: 50px;
-	width: 55%;
-	right: 0px;
+	// max-width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .info {
