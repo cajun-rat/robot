@@ -18,12 +18,9 @@ function doresize() {
 	c.width(s);
 	c.height(s);
 	c.offset({top:t, left:l});
+	centredot();
 }
 
-doresize();
-
-
-window.onresize = doresize;
 
 
 function HitTest(x, y, actualw, actualh, nominalw, nominalh) {
@@ -101,6 +98,7 @@ SendVote.prototype.noTouch = function () {
 }
 
 SendVote.prototype.pushUpdate = function (newVote) {
+	$('.info').text(newVote);
 	if (newVote != this.lastVote) {
 		this.lastVote = newVote;
 		if (console) {
@@ -139,10 +137,35 @@ $('#control').on('mouseup', function(e) {
        	isdown = false; 
 	sendVote.noTouch();
 });
-$('body').on('touchstart', function() { 
+
+function centredot() {
+	var w = $(window).width();
+	var h = $(window).height();
+	$('#dot').offset({left:w/2 - 60, top:h/2 - 60});
+}
+
+		
+var touchlistener = function (e) {
+	e.preventDefault();
 	var offset = control.offset();
-	sendVote.gotTouch(e.pageX - offset.left, e.pageY - offset.top);
+	var touch = event.touches[0];
+	$('#dot').offset({left:touch.pageX - 60, top:touch.pageY - 60});
+	//$('.info').text('x:' + touch.pageX + ' x1:' + offset.left + ' y:' + touch.pageY + ' y1:' + offset.top);
+	sendVote.gotTouch(touch.pageX - offset.left, touch.pageY - offset.top);
+};
+document.addEventListener('touchstart', touchlistener); 
+document.addEventListener('touchmove', touchlistener); 
+
+document.addEventListener('touchend', function (e) {
+	centredot();
+	sendVote.noTouch();
 });
-$('body').on('touchcancel', function() { sendVote.noTouch(); });
-$('body').on('touchend', function() { sendVote.noTouch(); });
+
+document.addEventListener('touchcancel', function (e) {
+	centredot();
+	sendVote.noTouch();
+});
+
+doresize();
+window.onresize = doresize;
 

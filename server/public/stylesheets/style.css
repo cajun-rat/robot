@@ -24,3 +24,7 @@ a {
 	bottom: 0px;
 	width: 100%;
 }
+
+#dot {
+	position: absolute;
+}
