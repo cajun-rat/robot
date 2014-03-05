@@ -1,0 +1,9 @@
+{
+    "name": "Pi-Robot"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "pi-gpio": ">= 0.0.2"
+  }
+}
+
