@@ -17,6 +17,22 @@ raspistill -v -n -w 640 -h 480 -o image.jpg
 
 # If the camera light remains on and the output freezes at 'Stating output 0' then try using another camera or another raspberry pi. You won't fix this.
 
+##################
+# MPLAYER METHOD #
+##################
+
+# Stream to a socket
+raspivid -w 640 -h 480 -t 60000 -fps 20 -b 2000000 -o - | nc 10.120.105.123 5001
+
+# Play it on Windows (note the dash at the end)
+nc -L -p 5001 | mplayer -fps 30 -demuxer h264es -
+
+##############
+# VLC METHOD #
+##############
+
+# VLC seems to have quite high latency (8+ seconds), but can distribute the feed to many clients
+
 # use raspivid to stream video to a network endpoint
 raspivid -o - -w 640 -h 480 --fps 10 -t 999999999 | nc -u 10.120.105.123 1234
 
