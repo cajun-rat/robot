@@ -1,0 +1,39 @@
+# This is not a script, don't run it.
+
+# Get updates
+sudo apt-get update
+
+# run upgrades (takes a while)
+sudo apt-get upgrade
+
+# Enable camera - this shows a menu; can't script this probably
+sudo raspi-config
+
+# Reboot
+sudo reboot
+
+# Take a test photo
+raspistill -v -n -w 640 -h 480 -o image.jpg
+
+# If the camera light remains on and the output freezes at 'Stating output 0' then try using another camera or another raspberry pi. You won't fix this.
+
+# use raspivid to stream video to a network endpoint
+raspivid -o - -w 640 -h 480 --fps 10 -t 999999999 | nc -u 10.120.105.123 1234
+
+# receive on windows with
+vlc -I dummy "udp://@0.0.0.0:1234" --sout "#standard{access=http,mux=ts,dst=:8085}" :demux=h264
+
+# view anywhere with this. Note that the ip is specified twice, but I think only the latter really matters.
+<!DOCTYPE html>
+<html><body>
+<OBJECT classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921"
+ codebase="http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
+ width="640" height="480" id="vlc" events="True">
+ <param name="Src" value="http://10.120.105.123:8085/" />
+ <param name="ShowDisplay" value="True" />
+ <param name="AutoLoop" value="False" />
+ <param name="AutoPlay" value="True" />
+ <embed id="vlcEmb" type="application/x-google-vlc-plugin" version="VideoLAN.VLCPlugin.2" autoplay="yes" loop="no" width="640" height="480"
+ target="http://10.120.105.123:8085/" ></embed>
+</OBJECT>
+</html></body>
