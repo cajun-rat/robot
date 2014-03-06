@@ -101,6 +101,7 @@ SendVote.prototype.pushUpdate = function (newVote) {
 	$('.info').text(newVote);
 	if (newVote != this.lastVote) {
 		this.lastVote = newVote;
+		$('#control').attr('src', newVote + '.png');
 		if (console) {
 			console.debug(newVote);
 		}
